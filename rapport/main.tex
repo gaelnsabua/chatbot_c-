@@ -1,261 +1,182 @@
-% SQUAD-CSHARP - Rapport Technique de Projet
-% Compilé avec pdflatex
-
 \documentclass[12pt,a4paper]{report}
 
-% ============================================================
-% Packages
-% ============================================================
+%--------------------------------------------------
+% Encodage et langue
+%--------------------------------------------------
 \usepackage[utf8]{inputenc}
-\usepackage[french]{babel}
 \usepackage[T1]{fontenc}
-\usepackage{geometry}
-\usepackage{graphicx}
-\usepackage[table]{xcolor}  % Option table pour \rowcolor
-\usepackage{fancyhdr}
-\usepackage{titlesec}
+\usepackage[french]{babel}
+
+%--------------------------------------------------
+% Packages utiles
+%--------------------------------------------------
+\usepackage[table]{xcolor} % Couleurs dans les tableaux
+\usepackage{tabularx}      % Tableaux flexibles
+\usepackage{colortbl}      % Couleurs de ligne
 \usepackage{tocloft}
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{enumitem}
-\usepackage{tabularx}
-\usepackage{booktabs}
-\usepackage{float}
-\usepackage{multirow}
-\usepackage{array}
-\usepackage{tikz}
 \usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{microtype}  % Meilleure justification
-\usepackage{url}         % Gestion URLs
+\usepackage{nomencl}
+\makenomenclature
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz}           % Schéma
+\usepackage{float}          % [H] pour figures
 
-% ============================================================
-% Configuration de la page
-% ============================================================
+%--------------------------------------------------
+% Mise en page
+%--------------------------------------------------
+\usepackage{geometry}
 \geometry{
-    top=2.5cm,
-    bottom=2.5cm,
-    left=3cm,
-    right=2.5cm,
-    headheight=15pt
+  left=2.5cm,
+  right=2.5cm,
+  top=2.5cm,
+  bottom=2.5cm
 }
 
-% Anti-débordement
-\tolerance=1000
-\emergencystretch=3em
-\hfuzz=0.5pt
-\sloppy
+\usepackage{setspace}
+\setstretch{1.25}
 
-% ============================================================
-% Couleurs
-% ============================================================
-\definecolor{primarycolor}{RGB}{34,139,34}     % Vert
-\definecolor{secondarycolor}{RGB}{0,120,215}   % Bleu
-\definecolor{codebackground}{RGB}{245,245,245}
-\definecolor{commentcolor}{RGB}{0,128,0}
-\definecolor{keywordcolor}{RGB}{0,0,255}
-\definecolor{stringcolor}{RGB}{163,21,21}
+\usepackage{lmodern}
+\usepackage{microtype}
 
-% ============================================================
-% Configuration hyperref
-% ============================================================
-\hypersetup{
-    colorlinks=true,
-    linkcolor=primarycolor,
-    filecolor=primarycolor,
-    urlcolor=secondarycolor,
-    citecolor=primarycolor,
-    pdftitle={SQUAD-CSHARP - Rapport Technique},
-    pdfauthor={Projet SQUAD-CSHARP},
-    pdfsubject={Assistant Conversationnel Expert en C\#},
-    pdfkeywords={RAG, C\#, Ollama, LangChain, ChromaDB}
-}
-
-% ============================================================
-% Style des titres
-% ============================================================
-\titleformat{\chapter}[display]
-    {\normalfont\huge\bfseries\color{black}}
-    {\chaptertitlename\ \thechapter}{10pt}{\Huge}
-\titlespacing*{\chapter}{0pt}{20pt}{20pt}
-\titleformat{\section}
-    {\normalfont\Large\bfseries\color{primarycolor}}
-    {\thesection}{1em}{}
-\titleformat{\subsection}
-    {\normalfont\large\bfseries\color{secondarycolor}}
-    {\thesubsection}{1em}{}
-
-% ============================================================
-% En-têtes et pieds de page
-% ============================================================
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\leftmark}
-\fancyhead[R]{\textcolor{primarycolor}{SQUAD-CSHARP}}
-\fancyfoot[C]{\thepage}
-\renewcommand{\headrulewidth}{0.5pt}
-\renewcommand{\footrulewidth}{0.5pt}
-
-% Style pour la première page des chapitres
-\fancypagestyle{plain}{
-    \fancyhf{}
-    \fancyfoot[C]{\thepage}
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0.5pt}
-}
-
-% ============================================================
-% Configuration des listings (code)
-% ============================================================
-\lstset{
-    backgroundcolor=\color{codebackground},
-    basicstyle=\ttfamily\small,
-    breaklines=true,
-    captionpos=b,
-    commentstyle=\color{commentcolor},
-    keywordstyle=\color{keywordcolor}\bfseries,
-    stringstyle=\color{stringcolor},
-    numbers=left,
-    numberstyle=\tiny\color{gray},
-    stepnumber=1,
-    numbersep=8pt,
-    showstringspaces=false,
-    tabsize=4,
-    frame=single,
-    rulecolor=\color{gray!30},
-    xleftmargin=15pt,
-    xrightmargin=5pt,
-    framexleftmargin=10pt
-}
-
-% Styles pour différents langages
+%--------------------------------------------------
+% Configuration de listings (code source)
+%--------------------------------------------------
+\usepackage{listings}
 \lstdefinestyle{python}{
     language=Python,
-    morekeywords={self,True,False,None,yield,async,await}
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    backgroundcolor=\color{gray!5},
+    xleftmargin=2em,
+    framexleftmargin=1.5em
 }
 
-\lstdefinestyle{powershell}{
-    language=bash,
-    morekeywords={if,else,foreach,function,param}
-}
+%--------------------------------------------------
+% Format des titres (alignés à gauche + ligne en bas)
+%--------------------------------------------------
+\titleformat{\chapter}
+  {\Huge\bfseries}
+  {\thechapter.}
+  {1em}
+  {}
+  [
+    \vspace{1ex}
+    \titlerule
+  ]
 
-% ============================================================
-% Commandes personnalisées
-% ============================================================
-\newcommand{\checkmark}{\textcolor{green!70!black}{\checkmark}}
-\newcommand{\feature}[1]{\textcolor{green!70!black}{$\checkmark$} \textbf{#1}}
+\titlespacing*{\chapter}
+  {0pt}
+  {0pt}
+  {40pt}
 
-% ============================================================
+\titleformat{\section}
+  {\Large\bfseries} % Texte aligné à gauche
+  {\thesection.}             % Numérotation
+  {1em}
+  {}
+  [
+    \vspace{0.5ex}
+    \titlerule
+  ]
+
+\titlespacing*{\section}
+  {0pt}
+  {3ex}
+  {3ex}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection.}
+  {1em}{}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries}
+  {\thesubsubsection.}
+  {1em}{}
+
+%--------------------------------------------------
 % Début du document
-% ============================================================
+%--------------------------------------------------
 \begin{document}
 
-% ============================================================
-% Page de garde
-% ============================================================
+%================ PAGE DE GARDE ===================%
 \begin{titlepage}
-    \centering
-    
-    % Informations université en haut
-    \vspace*{0.5cm}
-    {\large Université Don Bosco de Lubumbasji}\\[0.2cm]
-    {\normalsize Département Génie Logiciel}\\[0.2cm]
-  
-    
-    % Logo (à remplacer par votre image)
-    \begin{center}
-            \centering
-            \vspace{2cm}
-            \includegraphics[width=6cm]{logo_udbl.png}
-            \vspace{1cm}
-    \end{center}
-    
-    % Titre principal
-    {\huge\bfseries\color{primarycolor} SQUAD-CSHARP}\\[0.5cm]
-    {\Large Rapport Technique de Projet}\\[0.3cm]
-    {\large Assistant Conversationnel Expert en C\# basé sur RAG}
-    
-    \vspace{1cm}
-    
-    % Ligne de séparation
-    \rule{\textwidth}{1.5pt}
-    
-    \vspace{1cm}
-    
-    % Informations du projet
-    \begin{tabular}{ll}
-        \textbf{Projet :} & SQUAD-CSHARP \\[0.3cm]
-        \textbf{Version :} & 1.0 \\[0.3cm]
-        \textbf{Date :} & 12 février 2026 \\[0.3cm]
-        \textbf{Technologies :} & RAG, Ollama, LangChain, ChromaDB, Streamlit
-    \end{tabular}
-    
-    \vspace{3.5cm}
+\newgeometry{top=2cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+\centering
 
-    {\normalsize Année Académique 2025-2026}\\[1cm]
+{\Large\textbf{UNIVERSITÉ DON BOSCO DE LUBUMBASHI}}\\[0.2cm]
+{\small République Démocratique du Congo}\\
+{\small Faculté des sciences informatiques}\\
+{\small Province du Haut-Katanga}\\
+{\small Lubumbashi -- \url{www.udbl.ac.cd}}\\[1cm]
 
-    {\Large Tableau des membres du groupe}\\[0.3cm]
-    \begin{center}
-    % Tableau des membres du groupe
-    \begin{center}
-        \renewcommand{\arraystretch}{1.5}
-        \begin{tabularx}{1\textwidth}{|X|X|X|}
-            \hline
-            \rowcolor{green!20}
-            \textbf{Matricule} &
-            \textbf{Nom \& Prénom} & \textbf{Sexe} \\
-            \hline
-            \textcolor{gray}{22MK275} &
-            \textcolor{gray}{MUJINGA KYUNGU Guillain} &
-            \textcolor{gray}{M} \\
-            \hline
-            \textcolor{gray}{22MN283} &
-            \textcolor{gray}{MUKALA NSABUA Gael} &
-            \textcolor{gray}{M} \\
-            \hline
-            \textcolor{gray}{22MK289} &
-            \textcolor{gray}{MUKEBO KALASA Ruth} &
-            \textcolor{gray}{F} \\
-            \hline
-            \textcolor{gray}{22MK291} &
-            \textcolor{gray}{MUKEKWA KABAMBA Eliel} &
-            \textcolor{gray}{M} \\
-            \hline
-            \hline
-            \textcolor{gray}{22MK294} &
-            \textcolor{gray}{MUKENDI KALOMBO Joel} &
-            \textcolor{gray}{M} \\
-            \hline
-            \hline
-            \textcolor{gray}{20MM381} &
-            \textcolor{gray}{MUMBERE MWANGAZA David} &
-            \textcolor{gray}{M} \\
-            \hline
-        \end{tabularx}
-    \end{center}
-    
-    \vfill
-    
+\includegraphics[width=9.5cm]{udbl.png}\\[1cm]
 
+\rule{\textwidth}{0.3pt}\\[0.5cm]
+
+{\large\bfseries SQUAD-CSHARP}\\[0.6cm]
+
+{\Large Rapport Technique de Projet}\\[0.3cm]
+{\large Assistant Conversationnel Expert en C\# basé sur RAG}
+
+\rule{\textwidth}{0.1pt}\\[0.1cm]
+
+\begin{flushright}
+\begin{minipage}{0.86\textwidth}
+\itshape
+\textbf{Projet : } SQUAD-CSHARP \\ 
+\textbf{Version : } 1.0 \\ 
+\textbf{Date : } 12 février 2026 \\ 
+\textbf{Technologie : } RAG, Ollama, LangChain, ChromaDB, Streamlit \\ 
+\end{minipage}
+\end{flushright}
+
+\vfill
+{\large\textbf{Année Académique 2025-2026}}
+
+\restoregeometry
 \end{titlepage}
 
-% ============================================================
-% Table des matières
-% ============================================================
+\newpage
 \tableofcontents
 \newpage
 
-% ============================================================
-% CHAPITRE 1 : Introduction
-% ============================================================
-\chapter{Introduction}
+%================ TABLEAU DES PARTICIPANTS ===================%
+\section*{Tableau des membres du groupe}
+\renewcommand{\arraystretch}{1.5} % hauteur des lignes
+\rowcolors{2}{gray!10}{white}     % lignes alternées
+\begin{tabularx}{\textwidth}{|c|X|c|}
+\hline
+\rowcolor{green!30}
+\textbf{Matricule} & \textbf{Nom \& Prénom} & \textbf{Sexe} \\
+\hline
+22MK275 & MUJINGA KYUNGU Guillain & M \\
+22MN283 & MUKALA NSABUA Gael & M \\
+22MK289 & MUKEBO KALASA Ruth & F \\
+22MK291 & MUKEKWA KABAMBA Eliel & M \\
+22MK294 & MUKENDI KALOMBO Joel & M \\
+20MM381 & MUMBERE MWANGAZA David & M \\
+\hline
+\end{tabularx}
 
-\section{Objectif du Projet}
+%================ CONTENU DU RAPPORT ===================%
+\newpage
+\section{Introduction}
 
+\subsection{Objectif du Projet}
 SQUAD-CSHARP est un chatbot intelligent spécialisé en C\# utilisant RAG (\textit{Retrieval-Augmented Generation}) pour répondre aux questions depuis une documentation locale.
 
-\section{Contraintes Techniques}
-
+\subsection{Contraintes Techniques}
 \begin{itemize}
     \item \textbf{100\% local} sans internet
     \item \textbf{Open-source} uniquement
@@ -263,14 +184,13 @@ SQUAD-CSHARP est un chatbot intelligent spécialisé en C\# utilisant RAG (\text
     \item \textbf{Spécialisé C\#/.NET} uniquement
 \end{itemize}
 
-\section{Architecture Générale}
-
+\subsection{Architecture Générale}
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[
         node distance=1.2cm,
         box/.style={rectangle, draw, fill=green!10, text width=6cm, text centered, rounded corners, minimum height=1cm},
-        arrow/.style={->, >=stealth, thick, color=primarycolor}
+        arrow/.style={->, >=stealth, thick}
     ]
         \node[box] (ui) {Interface Utilisateur (Streamlit / CLI)};
         \node[box, below of=ui] (detection) {Détection \& Filtrage (prompt\_builder.py)};
@@ -292,27 +212,23 @@ SQUAD-CSHARP est un chatbot intelligent spécialisé en C\# utilisant RAG (\text
     \caption{Architecture du système SQUAD-CSHARP}
 \end{figure}
 
-% ============================================================
-% CHAPITRE 2 : Fonctionnalités Implémentées
-% ============================================================
+\newpage
 \chapter{Fonctionnalités Implémentées}
 
 \section{Ingestion Documentaire}
 
 \subsection{Extraction PDF}
-
 Utilise \texttt{PyPDF2} : lecture multi-page, extraction de texte, nettoyage automatique, conservation des métadonnées (page, source).
 
 \subsection{Découpage Intelligent}
-
 Chunks de 1000 caractères avec overlap de 200, séparateurs sémantiques (paragraphes, lignes, phrases).
 
 \subsubsection{Détection Automatique du Type de Contenu}
-
 Chaque chunk est classifié automatiquement :
 
 \begin{table}[H]
-    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \rowcolors{2}{gray!10}{white}
     \begin{tabularx}{\textwidth}{|l|X|}
         \hline
         \rowcolor{green!20}
@@ -329,18 +245,28 @@ Chaque chunk est classifié automatiquement :
 \end{table}
 
 \subsection{Vectorisation et Indexation}
-
 Modèle \texttt{all-MiniLM-L6-v2} (384 dim), ChromaDB \texttt{csharp\_docs}, métadonnées : source, page, type, timestamp.
 
 \subsection{Statistiques d'Ingestion}
+Le tableau suivant présente les statistiques après ingestion et création des chunks :
 
-\begin{lstlisting}[style=python, caption=Exemple de sortie]
-=== Statistiques d'ingestion ===
-Documents traites : 13
-Chunks generes : 3542
-Temps d'execution : 127.3 secondes
-Collection : csharp_docs
-\end{lstlisting}
+\begin{table}[H]
+    \renewcommand{\arraystretch}{1.3} % hauteur des lignes
+    \rowcolors{2}{gray!10}{white}
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Paramètre} & \textbf{Valeur} \\
+        \hline
+        Documents traités & 13 \\
+        Chunks générés & 3542 \\
+        Temps d'exécution & 127,3 secondes \\
+        Collection & csharp\_docs \\
+        \hline
+    \end{tabularx}
+    \caption{Statistiques d’ingestion des documents PDF}
+    \label{tab:stats_ingestion}
+\end{table}
 
 \section{Système RAG (Retrieval-Augmented Generation)}
 
