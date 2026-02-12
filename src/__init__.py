@@ -1,0 +1,3 @@
+"""
+SQUAD-CSHARP - Package principal
+"""
