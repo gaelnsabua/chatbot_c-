@@ -1,0 +1,796 @@
+% SQUAD-CSHARP - Rapport Technique de Projet
+% Compilé avec pdflatex
+
+\documentclass[12pt,a4paper]{report}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}  % Option table pour \rowcolor
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}  % Meilleure justification
+\usepackage{url}         % Gestion URLs
+
+% ============================================================
+% Configuration de la page
+% ============================================================
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=3cm,
+    right=2.5cm,
+    headheight=15pt
+}
+
+% Anti-débordement
+\tolerance=1000
+\emergencystretch=3em
+\hfuzz=0.5pt
+\sloppy
+
+% ============================================================
+% Couleurs
+% ============================================================
+\definecolor{primarycolor}{RGB}{34,139,34}     % Vert
+\definecolor{secondarycolor}{RGB}{0,120,215}   % Bleu
+\definecolor{codebackground}{RGB}{245,245,245}
+\definecolor{commentcolor}{RGB}{0,128,0}
+\definecolor{keywordcolor}{RGB}{0,0,255}
+\definecolor{stringcolor}{RGB}{163,21,21}
+
+% ============================================================
+% Configuration hyperref
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarycolor,
+    filecolor=primarycolor,
+    urlcolor=secondarycolor,
+    citecolor=primarycolor,
+    pdftitle={SQUAD-CSHARP - Rapport Technique},
+    pdfauthor={Projet SQUAD-CSHARP},
+    pdfsubject={Assistant Conversationnel Expert en C\#},
+    pdfkeywords={RAG, C\#, Ollama, LangChain, ChromaDB}
+}
+
+% ============================================================
+% Style des titres
+% ============================================================
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries\color{black}}
+    {\chaptertitlename\ \thechapter}{10pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{20pt}{20pt}
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{primarycolor}}
+    {\thesection}{1em}{}
+\titleformat{\subsection}
+    {\normalfont\large\bfseries\color{secondarycolor}}
+    {\thesubsection}{1em}{}
+
+% ============================================================
+% En-têtes et pieds de page
+% ============================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\textcolor{primarycolor}{SQUAD-CSHARP}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% Style pour la première page des chapitres
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.5pt}
+}
+
+% ============================================================
+% Configuration des listings (code)
+% ============================================================
+\lstset{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{commentcolor},
+    keywordstyle=\color{keywordcolor}\bfseries,
+    stringstyle=\color{stringcolor},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    tabsize=4,
+    frame=single,
+    rulecolor=\color{gray!30},
+    xleftmargin=15pt,
+    xrightmargin=5pt,
+    framexleftmargin=10pt
+}
+
+% Styles pour différents langages
+\lstdefinestyle{python}{
+    language=Python,
+    morekeywords={self,True,False,None,yield,async,await}
+}
+
+\lstdefinestyle{powershell}{
+    language=bash,
+    morekeywords={if,else,foreach,function,param}
+}
+
+% ============================================================
+% Commandes personnalisées
+% ============================================================
+\newcommand{\checkmark}{\textcolor{green!70!black}{\checkmark}}
+\newcommand{\feature}[1]{\textcolor{green!70!black}{$\checkmark$} \textbf{#1}}
+
+% ============================================================
+% Début du document
+% ============================================================
+\begin{document}
+
+% ============================================================
+% Page de garde
+% ============================================================
+\begin{titlepage}
+    \centering
+    
+    % Informations université en haut
+    \vspace*{0.5cm}
+    {\large Université / École}\\[0.2cm]
+    {\normalsize Formation / Filière}\\[0.2cm]
+    {\normalsize Année Académique 2025-2026}\\[1cm]
+    
+    % Logo (à remplacer par votre image)
+    \begin{center}
+        \fbox{\begin{minipage}{6cm}
+            \centering
+            \vspace{2cm}
+            \textcolor{gray}{\Large [LOGO]}\\
+            \vspace{0.5cm}
+            \textcolor{gray}{\small (Placer votre logo ici)}
+            \vspace{2cm}
+        \end{minipage}}
+    \end{center}
+    
+    \vspace{1cm}
+    
+    % Titre principal
+    {\huge\bfseries\color{primarycolor} SQUAD-CSHARP}\\[0.5cm]
+    {\Large Rapport Technique de Projet}\\[0.3cm]
+    {\large Assistant Conversationnel Expert en C\# basé sur RAG}
+    
+    \vspace{1.5cm}
+    
+    % Ligne de séparation
+    \rule{\textwidth}{1.5pt}
+    
+    \vspace{1cm}
+    
+    % Informations du projet
+    \begin{tabular}{ll}
+        \textbf{Projet :} & SQUAD-CSHARP \\[0.3cm]
+        \textbf{Version :} & 1.0 \\[0.3cm]
+        \textbf{Date :} & 12 février 2026 \\[0.3cm]
+        \textbf{Technologies :} & RAG, Ollama, LangChain, ChromaDB, Streamlit
+    \end{tabular}
+    
+    \vspace{1.5cm}
+    
+    % Tableau des membres du groupe
+    \begin{center}
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabularx}{0.8\textwidth}{|X|X|}
+            \hline
+            \rowcolor{green!20}
+            \textbf{Nom \& Prénom} & \textbf{Rôle} \\
+            \hline
+            \textcolor{gray}{[Membre 1]} & \textcolor{gray}{[Rôle]} \\
+            \hline
+            \textcolor{gray}{[Membre 2]} & \textcolor{gray}{[Rôle]} \\
+            \hline
+            \textcolor{gray}{[Membre 3]} & \textcolor{gray}{[Rôle]} \\
+            \hline
+            \textcolor{gray}{[Membre 4]} & \textcolor{gray}{[Rôle]} \\
+            \hline
+        \end{tabularx}
+    \end{center}
+    
+    \vfill
+    
+
+\end{titlepage}
+
+% ============================================================
+% Table des matières
+% ============================================================
+\tableofcontents
+\newpage
+
+% ============================================================
+% CHAPITRE 1 : Introduction
+% ============================================================
+\chapter{Introduction}
+
+\section{Objectif du Projet}
+
+SQUAD-CSHARP est un chatbot intelligent spécialisé en C\# utilisant RAG (\textit{Retrieval-Augmented Generation}) pour répondre aux questions depuis une documentation locale.
+
+\section{Contraintes Techniques}
+
+\begin{itemize}
+    \item \textbf{100\% local} sans internet
+    \item \textbf{Open-source} uniquement
+    \item \textbf{CPU standard}, 8 Go RAM minimum
+    \item \textbf{Spécialisé C\#/.NET} uniquement
+\end{itemize}
+
+\section{Architecture Générale}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.2cm,
+        box/.style={rectangle, draw, fill=green!10, text width=6cm, text centered, rounded corners, minimum height=1cm},
+        arrow/.style={->, >=stealth, thick, color=primarycolor}
+    ]
+        \node[box] (ui) {Interface Utilisateur (Streamlit / CLI)};
+        \node[box, below of=ui] (detection) {Détection \& Filtrage (prompt\_builder.py)};
+        \node[box, below of=detection, xshift=-3cm] (refus) {Hors-sujet $\rightarrow$ Refus};
+        \node[box, below of=detection, xshift=3cm] (conv) {Conversationnel $\rightarrow$ Direct};
+        \node[box, below of=detection, yshift=-1.5cm] (rag) {Recherche RAG (retriever.py)};
+        \node[box, below of=rag] (chroma) {ChromaDB (Vector Store)};
+        \node[box, below of=chroma] (ollama) {Génération (Ollama + SQUAD-CSHARP)};
+        \node[box, below of=ollama] (result) {Réponse Streaming + Sources};
+        
+        \draw[arrow] (ui) -- (detection);
+        \draw[arrow] (detection) -| (refus);
+        \draw[arrow] (detection) -| (conv);
+        \draw[arrow] (detection) -- (rag);
+        \draw[arrow] (rag) -- (chroma);
+        \draw[arrow] (chroma) -- (ollama);
+        \draw[arrow] (ollama) -- (result);
+    \end{tikzpicture}
+    \caption{Architecture du système SQUAD-CSHARP}
+\end{figure}
+
+% ============================================================
+% CHAPITRE 2 : Fonctionnalités Implémentées
+% ============================================================
+\chapter{Fonctionnalités Implémentées}
+
+\section{Ingestion Documentaire}
+
+\subsection{Extraction PDF}
+
+Utilise \texttt{PyPDF2} : lecture multi-page, extraction de texte, nettoyage automatique, conservation des métadonnées (page, source).
+
+\subsection{Découpage Intelligent}
+
+Chunks de 1000 caractères avec overlap de 200, séparateurs sémantiques (paragraphes, lignes, phrases).
+
+\subsubsection{Détection Automatique du Type de Contenu}
+
+Chaque chunk est classifié automatiquement :
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Type} & \textbf{Critères de Détection} \\
+        \hline
+        \texttt{CODE} & Présence de patterns C\# : \texttt{class}, \texttt{namespace}, \texttt{using}, \texttt{\{}, etc. \\
+        \hline
+        \texttt{DEFINITION} & Patterns définitoires : "est un(e)", "désigne", "consiste à", etc. \\
+        \hline
+        \texttt{TEXT} & Texte descriptif standard par défaut \\
+        \hline
+    \end{tabularx}
+    \caption{Classification automatique des types de contenu}
+\end{table}
+
+\subsection{Vectorisation et Indexation}
+
+Modèle \texttt{all-MiniLM-L6-v2} (384 dim), ChromaDB \texttt{csharp\_docs}, métadonnées : source, page, type, timestamp.
+
+\subsection{Statistiques d'Ingestion}
+
+\begin{lstlisting}[style=python, caption=Exemple de sortie]
+=== Statistiques d'ingestion ===
+Documents traites : 13
+Chunks generes : 3542
+Temps d'execution : 127.3 secondes
+Collection : csharp_docs
+\end{lstlisting}
+
+\section{Système RAG (Retrieval-Augmented Generation)}
+
+\subsection{Retriever}
+
+Recherche par similarité cosinus, top-k configurable (1-10, défaut : 5), calcul des distances, filtrage optionnel.
+
+\subsection{Prompt Builder (Construction des Prompts)}
+
+\subsubsection{Détection Multi-Niveau}
+
+Le système analyse chaque message et le catégorise :
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|l|X|l|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Type} & \textbf{Exemples} & \textbf{RAG} \\
+        \hline
+        Conversationnel & Salutations, remerciements & Non \\
+        \hline
+        Technique C\# & Questions sur classes, LINQ, async/await & Oui \\
+        \hline
+        Hors-sujet & Java, Python, cuisine, histoire & Non \\
+        \hline
+    \end{tabularx}
+    \caption{Classification des messages utilisateur}
+\end{table}
+
+\subsubsection{Gestion du Contexte}
+
+Intégration des top-k chunks, historique des 10 derniers messages, adaptation du prompt selon l'historique.
+
+\subsubsection{Templates Spécialisés}
+
+3 templates : technique (avec RAG), conversationnel (minimaliste), refus (hors-sujet).
+
+\subsection{LLM Handler}
+
+Interface Ollama local (API REST port 11434), génération standard/streaming, gestion d'erreurs, test de connexion.
+
+\section{Interfaces Utilisateur}
+
+\subsection{Interface Web (Streamlit)}
+
+Chat interactif streaming, sidebar configuration, multi-conversations, statistiques, icônes Material Symbols.
+
+\subsubsection{Gestion des Conversations}
+
+Création (UUID), sauvegarde JSON automatique, navigation, basculement, suppression.
+
+\subsection{Interface CLI (Terminal)}
+
+Version minimaliste : commandes \texttt{/reset}, \texttt{/stats}, \texttt{/exit}, coloration Rich, affichage compact.
+
+\section{Personnalisation du Modèle}
+
+\subsection{Modelfile SQUAD-CSHARP}
+
+Configuration Ollama personnalisée avec :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Paramètre} & \textbf{Valeur} & \textbf{Effet} \\
+        \hline
+        \texttt{temperature} & 0.3 & Réponses précises et cohérentes \\
+        \hline
+        \texttt{top\_p} & 0.9 & Échantillonnage nucléaire \\
+        \hline
+        \texttt{top\_k} & 40 & Limitation du vocabulaire \\
+        \hline
+        \texttt{num\_ctx} & 4096 & Contexte étendu (tokens) \\
+        \hline
+    \end{tabular}
+    \caption{Paramètres du modèle SQUAD-CSHARP}
+\end{table}
+
+\subsection{Règles de Comportement}
+
+Présentation au début uniquement, refus poli hors C\#, ton pédagogique, citations des sources.
+
+\section{Filtrage et Sécurité}
+
+\subsection{Détection Hors-Sujet}
+
+3 listes : mots-clés C\# (20+), autres langages (30+), génériques techniques.
+
+\subsubsection{Logique de Priorité}
+
+\begin{lstlisting}[style=python, caption=Algorithme de détection]
+if mentions_csharp(question):
+    return TECHNICAL_CSHARP
+elif mentions_other_language(question):
+    return OFF_TOPIC
+elif has_generic_tech_keywords(question):
+    return TECHNICAL_GENERIC
+else:
+    return CONVERSATIONAL
+\end{lstlisting}
+
+\subsection{Validation des Questions C\#}
+
+Vérification croisée, court-circuit RAG si hors-sujet, refus strict sans infos techniques.
+
+\section{Utilitaires}
+
+\textbf{setup\_ollama.ps1} : Installation auto Ollama (multi-chemins, registry).
+
+\textbf{ingest\_pdfs.py} : Ingestion avec mode reset.
+
+\textbf{test\_connection.py} : Diagnostic complet (Ollama, ChromaDB, embeddings).
+
+\textbf{Config} : Fichier \texttt{.env}, classe \texttt{Config}, validation au démarrage.
+
+\textbf{Logging} : Console (INFO+), fichier \texttt{logs/squad\_csharp.log} (DEBUG+), rotation auto.
+
+\chapter{Dépendances et Modules}
+
+\section{Environnement Python}
+
+Python 3.11 requis (3.14 incompatible avec ChromaDB/Pydantic v1).
+
+\section{Dépendances Principales}
+
+\textbf{LLM :} langchain==0.3.13, langchain-ollama==0.2.1 (interface Ollama, streaming)
+
+\textbf{Text Splitting :} langchain-text-splitters>=0.2.0 (RecursiveCharacterTextSplitter)
+
+\textbf{Embeddings :} sentence-transformers==3.3.1 (all-MiniLM-L6-v2, 384 dim, CPU)
+
+\textbf{Vector DB :} chromadb==0.5.23 (stockage persistant, similarité cosinus)
+
+\textbf{UI Web :} streamlit==1.41.1 (chat, sidebar, session\_state)
+
+\textbf{UI CLI :} rich==13.9.4 (coloration, tables)
+
+\textbf{PDF :} PyPDF2==3.0.1 (extraction texte)
+
+\textbf{Config :} python-dotenv==1.0.1 (variables .env)
+
+\section{Logiciels Externes}
+
+\textbf{Ollama} 0.1.0+ : Serveur local LLM, port 11434
+
+\textbf{llama3.2:3b} : Modèle base ($\sim$2 Go, 3 milliards paramètres, Meta)
+
+% ============================================================
+% CHAPITRE 4 : Difficultés Rencontrées
+% ============================================================
+\chapter{Difficultés Rencontrées}
+
+\section{Python 3.14 / ChromaDB}
+
+\textbf{Problème :} Python 3.14 incompatible avec ChromaDB (Pydantic v1).
+
+\textbf{Solution :} Recréation venv avec Python 3.11. Temps : 30 min.
+
+\section{Import LangChain}
+
+\textbf{Problème :} \texttt{ModuleNotFoundError: langchain.text\_splitter}
+
+\textbf{Solution :} Ajout \texttt{langchain-text-splitters>=0.2.0}, import depuis \texttt{langchain\_text\_splitters}. Temps : 10 min.
+
+\section{Ollama PATH Windows}
+
+\textbf{Problème :} \texttt{ollama} non reconnu (installé dans \texttt{\%LOCALAPPDATA\%\textbackslash Programs}).
+
+\textbf{Solution :} Script multi-chemins + registry. Temps : 20 min.
+
+\section{HTTP Client Closed (Streamlit)}
+
+\textbf{Problème :} \texttt{@st.cache\_resource} sur LLMHandler fermait le client httpx après première requête.
+
+\textbf{Solution :} Suppression du cache, création nouvelle instance à chaque requête. Temps : 45 min.
+
+\section{Modèle Répète Présentation}
+
+\textbf{Problème :} "Bonjour ! Je suis SQUAD-CSHARP..." à chaque réponse.
+
+\textbf{Solution :} System prompt (« Ne te présente que lors du PREMIER échange ») + templates conditionnels selon historique. Temps : 30 min + 3 tests.
+
+\section{Réponses Hors C\#}
+
+\textbf{Problème :} Répondait aux questions Java/Python.
+
+\textbf{Solution :} 3 listes (C\#, autres langages, générique), fonction \texttt{is\_off\_topic()}, filtrage avant RAG, correction regex C++ (\texttt{\textbackslash bc\textbackslash +\textbackslash +} au lieu de \texttt{\textbackslash bc\textbackslash +\textbackslash +\textbackslash b}). Temps : 1h.
+
+\section{Conversations Non Persistantes}
+
+\textbf{Problème :} \texttt{st.session\_state} non sauvegardé.
+
+\textbf{Solution :} Système JSON (\texttt{data/conversations/}), fonctions \texttt{load/save/sync}, UI sidebar multi-conversations. Temps : 1h30.
+
+\section{Émojis Interface}
+
+\textbf{Problème :} Demande de remplacement émojis par vraies icônes.
+
+\textbf{Solution :} Google Material Symbols (CDN), fonction helper, icônes Streamlit natives. Temps : 30 min.
+
+\chapter{Métriques}
+
+\section{Code}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Catégorie} & \textbf{Fichiers} & \textbf{Lignes} \\
+        \hline
+        Source (src/) & 11 & $\sim$1800 \\
+        \hline
+        Scripts & 3 & $\sim$400 \\
+        \hline
+        Tests & 2 & $\sim$300 \\
+        \hline
+        Config & 4 & $\sim$100 \\
+        \hline
+        \rowcolor{green!10}
+        \textbf{TOTAL} & \textbf{20} & $\sim$\textbf{2600} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Performance}
+
+\textbf{Ingestion (13 PDF)} : $\sim$2 min, $\sim$3500 chunks, $\sim$150 Mo ChromaDB
+
+\textbf{Requête RAG} : 50-150 ms (vectorielle) + 3-5 sec (LLM) = 3-5 sec total
+
+\textbf{Mémoire} : Ollama + modèle ($\sim$2.5 Go) + ChromaDB ($\sim$200 Mo) + Streamlit ($\sim$150 Mo) = $\sim$3 Go total
+
+\chapter{Tests et Validation}
+
+\textbf{Tests unitaires} : \texttt{test\_ingestion.py} (extraction, découpage, vectorisation), \texttt{test\_rag.py} (recherche, prompts, détection, LLM).
+
+\textbf{Scénarios} : Conversation simple, questions C\# avec sources, hors-sujet (refus), multi-tours, gestion conversations, réindexation.
+
+\textbf{Cas limites} : Base vide, Ollama arrêté, modèle manquant, PDF corrompu, question vide, message très long.
+
+\chapter{Conclusion}
+
+\section{Objectifs Atteints}
+
+Système RAG fonctionnel, interface moderne, filtrage C\#-only, conversations persistantes, performance standard, documentation complète.
+
+\section{Améliorations Futures}
+
+\textbf{Court terme :} Export conversations (PDF, MD), mode sombre, recherche historique.
+
+\textbf{Moyen terme :} Modèle 8b + GPU, diagrammes UML, feedback utilisateur.
+
+\textbf{Long terme :} Extension VS Code, multi-utilisateurs, fine-tuning, agent autonome.
+
+\section{Synthèse}
+
+SQUAD-CSHARP démontre qu'un assistant pédagogique de qualité peut être créé 100\% local avec des technologies open-source, combinant RAG, LLM local, interface moderne, filtrage intelligent et persistance, tout en respectant autonomie, coût zéro, performance standard et confidentialité.
+
+% ============================================================
+% Annexes
+% ============================================================
+\appendix
+
+\chapter{Structure du Projet}
+
+\section{Arborescence Complète}
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, numbers=none]
+CHATBOT_C#/
+|-- data/
+|   |-- chroma_db/              # Base ChromaDB
+|   |-- conversations/          # Historiques JSON
+|   |-- pdfs/                   # Documents sources
+|-- docs/
+|   |-- SPEC_PROJECT_CSHARP_LOCAL.md
+|   |-- RAPPORT_PROJET.md
+|   |-- RAPPORT_TECHNIQUE.md
+|-- logs/
+|   |-- squad_csharp.log        # Logs applicatifs
+|-- models/
+|   |-- Modelfile               # Config Ollama
+|-- scripts/
+|   |-- ingest_pdfs.py
+|   |-- setup_ollama.ps1
+|   |-- test_connection.py
+|-- src/
+|   |-- ingestion/
+|   |   |-- pdf_loader.py
+|   |   |-- text_splitter.py
+|   |   |-- vector_store.py
+|   |-- rag/
+|   |   |-- llm_handler.py
+|   |   |-- prompt_builder.py
+|   |   |-- retriever.py
+|   |-- ui/
+|   |   |-- cli_app.py
+|   |   |-- streamlit_app.py
+|   |-- utils/
+|   |   |-- config.py
+|   |   |-- logger.py
+|   |   |-- validators.py
+|   |-- main.py
+|-- tests/
+|   |-- test_ingestion.py
+|   |-- test_rag.py
+|-- .env.example
+|-- .gitignore
+|-- README.md
+|-- requirements.txt
+\end{lstlisting}
+
+\chapter{Configuration Matérielle Recommandée}
+
+\section{Configuration Minimum}
+
+Pour tests et développement uniquement :
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|l|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Composant} & \textbf{Spécification} \\
+        \hline
+        CPU & 4 cœurs (Intel i5 gen 8+ ou équivalent) \\
+        \hline
+        RAM & 8 Go \\
+        \hline
+        Stockage & 10 Go disponibles \\
+        \hline
+        OS & Windows 10/11, Linux, macOS \\
+        \hline
+    \end{tabular}
+    \caption{Configuration matérielle minimum}
+\end{table}
+
+\section{Configuration Recommandée}
+
+Pour usage régulier et confortable :
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|l|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Composant} & \textbf{Spécification} \\
+        \hline
+        CPU & 6+ cœurs (Intel i7 / Ryzen 5) \\
+        \hline
+        RAM & 16 Go \\
+        \hline
+        Stockage & 20 Go SSD disponibles \\
+        \hline
+        OS & Windows 11 ou Linux récent \\
+        \hline
+    \end{tabular}
+    \caption{Configuration matérielle recommandée}
+\end{table}
+
+\section{Configuration Optimale}
+
+Pour performance maximale :
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|l|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Composant} & \textbf{Spécification} \\
+        \hline
+        CPU & 8+ cœurs (Intel i9 / Ryzen 7+) \\
+        \hline
+        RAM & 32 Go \\
+        \hline
+        GPU & NVIDIA RTX 2060+ (pour modèles plus grands) \\
+        \hline
+        Stockage & 50 Go SSD NVMe \\
+        \hline
+        OS & Windows 11 ou Ubuntu 22.04+ \\
+        \hline
+    \end{tabular}
+    \caption{Configuration matérielle optimale}
+\end{table}
+
+\chapter{Glossaire}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \rowcolor{green!20}
+        \textbf{Terme} & \textbf{Définition} \\
+        \hline
+        \textbf{RAG} & Retrieval-Augmented Generation. Technique combinant recherche documentaire et génération de texte IA \\
+        \hline
+        \textbf{Embedding} & Transformation de texte en vecteur numérique permettant des calculs mathématiques \\
+        \hline
+        \textbf{Vector Store} & Base de données spécialisée pour stocker et chercher des vecteurs par similarité \\
+        \hline
+        \textbf{LLM} & Large Language Model. Modèle de langage entraîné sur énormément de texte \\
+        \hline
+        \textbf{Prompt} & Instruction donnée à l'IA pour qu'elle génère une réponse \\
+        \hline
+        \textbf{Token} & Morceau de texte (mot/sous-mot) que l'IA traite \\
+        \hline
+        \textbf{Streaming} & Affichage progressif de la réponse (mot par mot) pour améliorer l'UX \\
+        \hline
+        \textbf{Chunk} & Morceau de document découpé pour traitement et indexation \\
+        \hline
+        \textbf{Temperature} & Paramètre contrôlant la créativité de l'IA (0 = déterministe, 1+ = créatif) \\
+        \hline
+        \textbf{Top\_k} & Nombre de meilleurs résultats à conserver lors d'une recherche \\
+        \hline
+        \textbf{Cosine Similarity} & Mesure mathématique de similarité entre deux vecteurs (angle entre vecteurs) \\
+        \hline
+        \textbf{Ollama} & Serveur local permettant d'exécuter des modèles de langage (alternative à OpenAI) \\
+        \hline
+        \textbf{ChromaDB} & Base de données vectorielle open-source pour applications RAG \\
+        \hline
+    \end{tabularx}
+    \caption{Glossaire des termes techniques}
+\end{table}
+
+% ============================================================
+% Références
+% ============================================================
+\chapter*{Références}
+\addcontentsline{toc}{chapter}{Références}
+
+\begin{itemize}
+    \item \textbf{Ollama} : \url{https://ollama.ai/}
+    \item \textbf{LangChain} : \url{https://python.langchain.com/}
+    \item \textbf{ChromaDB} : \url{https://www.trychroma.com/}
+    \item \textbf{Streamlit} : \url{https://streamlit.io/}
+    \item \textbf{Sentence-Transformers} : \url{https://www.sbert.net/}
+    \item \textbf{Llama 3.2} : \url{https://ai.meta.com/llama/}
+    \item \textbf{RAG Paper} (Lewis et al., 2020) : \url{https://arxiv.org/abs/2005.11401}
+\end{itemize}
+
+% ============================================================
+% Page de fin
+% ============================================================
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+    {\Large\textcolor{primarycolor}{\textbf{SQUAD-CSHARP}}}\\[0.3cm]
+    {\large Rapport Technique de Projet}\\[1cm]
+    
+    \rule{0.5\textwidth}{0.5pt}\\[0.5cm]
+    
+    {\normalsize Version 1.0 -- 12 février 2026}\\[0.3cm]
+    {\normalsize $\sim$2600 lignes de code -- 20 fichiers}\\[0.3cm]
+    {\normalsize Durée de développement : $\sim$15--20 heures}\\[1cm]
+    
+    \textit{Assistant Conversationnel Expert en C\# basé sur RAG}\\
+    \textit{100\% Local -- Open-Source -- Gratuit}
+\end{center}
+\vspace*{\fill}
+
+\end{document}

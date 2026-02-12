@@ -18,7 +18,7 @@ from rich.table import Table
 
 from src.ingestion.vector_store import VectorStore
 from src.rag.retriever import Retriever
-from src.rag.prompt_builder import build_conversational_prompt, is_technical_question
+from src.rag.prompt_builder import build_conversational_prompt, is_technical_question, is_off_topic
 from src.rag.llm_handler import LLMHandler
 from src.utils.config import TOP_K_RETRIEVAL, OLLAMA_MODEL
 
@@ -147,9 +147,9 @@ def main():
                     break
                 continue
 
-            # Recherche de contexte (seulement pour les questions techniques)
+            # Recherche de contexte (seulement pour les questions techniques C#)
             docs = []
-            if is_technical_question(question):
+            if is_technical_question(question) and not is_off_topic(question):
                 with console.status("[bold yellow]Recherche dans la documentation..."):
                     docs = retriever.retrieve(question)
 

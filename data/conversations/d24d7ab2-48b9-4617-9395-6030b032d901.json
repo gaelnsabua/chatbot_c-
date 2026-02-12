@@ -1,0 +1,51 @@
+{
+  "id": "d24d7ab2-48b9-4617-9395-6030b032d901",
+  "title": "Comment parcour un tableau avec React ?:",
+  "created_at": "2026-02-12T09:56:52.452454",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Comment parcour un tableau avec React ?:"
+    },
+    {
+      "role": "assistant",
+      "content": "Je suis SQUAD-CSHARP, un assistant spécialisé uniquement en C#. Je ne peux pas t'aider sur ce sujet, mais n'hésite pas à me poser une question sur le C# ! Qu'est-ce que tu veux savoir sur le langage C# ou l'écosystème .NET ?",
+      "sources": []
+    },
+    {
+      "role": "user",
+      "content": "Comment établir une connexion avec Socket en C++ ?"
+    },
+    {
+      "role": "assistant",
+      "content": "Pour établir une connexion avec un socket en C#, vous devez créer un objet Socket et l'initialiser avec le type de socket souhaité (par exemple, TcpClient ou UdpClient). Voici un exemple de code pour établir une connexion TCP :\n\n```csharp\nusing System.Net;\nusing System.Net.Sockets;\n\n// Créez un objet Socket\nSocket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);\n\n// Configurez l'adresse et le port du serveur\nIPEndPoint serverAddress = new IPEndPoint(IPAddress.Loopback, 8080);\nclient.Connect(serverAddress);\n\n// Utilisez maintenant la connexion pour envoyer des données au serveur\nbyte[] data = System.Text.Encoding.ASCII.GetBytes(\"Bonjour !\");\nclient.Send(data);\n```\n\nDans cet exemple, nous créons un objet Socket avec les propriétés `AddressFamily.InterNetwork`, `SocketType.Stream` et `ProtocolType.Tcp`. Nous configurons ensuite l'adresse du serveur (`IPEndPoint`) et le port sur lequel il écoute. Ensuite, nous utilisons la méthode `Connect` pour établir la connexion au serveur.\n\nIl est important de noter que vous devez disposer d'un objet Socket ouvert pour pouvoir envoyer des données au serveur. Vous pouvez utiliser la méthode `Close` pour fermer le socket lorsque vous êtes fini avec lui :\n\n```csharp\nclient.Close();\n```\n\nPour établir une connexion UDP, vous devez créer un objet UdpClient et l'initialiser avec le port sur lequel il écoute. Voici un exemple de code pour établir une connexion UDP :\n\n```csharp\nusing System.Net;\nusing System.Net.Sockets;\n\n// Créez un objet UdpClient\nUdpClient client = new UdpClient(8080);\n\n// Utilisez maintenant la connexion pour envoyer des données au serveur\nbyte[] data = System.Text.Encoding.ASCII.GetBytes(\"Bonjour !\");\nclient.Send(data, data.Length);\n```\n\nDans cet exemple, nous créons un objet UdpClient avec le port 8080. Nous utilisons ensuite la méthode `Send` pour envoyer des données au serveur.\n\nN'oubliez pas de fermer l'objet UdpClient lorsque vous êtes fini avec lui :\n\n```csharp\nclient.Close();\n```\n\nIl est également important de noter que les connexions UDP sont souvent utilisées pour des applications où la fiabilité n'est pas cruciale, car les données peuvent être perdus ou déformées au cours du transport.",
+      "sources": [
+        {
+          "source": "Cours_PDF_Gratuit_Programmation_C_sharp.pdf",
+          "page": 130,
+          "distance": 0.8248569965362549
+        },
+        {
+          "source": "Cours_PDF_Gratuit_Programmation_C_sharp.pdf",
+          "page": 106,
+          "distance": 1.0076639652252197
+        },
+        {
+          "source": "Cours_PDF_Gratuit_Programmation_C_sharp.pdf",
+          "page": 140,
+          "distance": 1.0119309425354004
+        },
+        {
+          "source": "apprendre c#.pdf",
+          "page": 11,
+          "distance": 1.0449681282043457
+        },
+        {
+          "source": "cs (1).pdf",
+          "page": 11,
+          "distance": 1.0449681282043457
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "id": "d05cf658-03fe-44b1-9708-d234f9dd7f44",
+  "title": "Bonjour",
+  "created_at": "2026-02-12T09:29:39.540170",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Bonjour"
+    },
+    {
+      "role": "assistant",
+      "content": "Je suis SQUAD-CSHARP, un assistant exclusivement dédié au langage de programmation C#. Je suis ravi de vous aider avec tout ce que vous souhaitez savoir sur C#!",
+      "sources": []
+    },
+    {
+      "role": "user",
+      "content": "parle moi de variableee"
+    },
+    {
+      "role": "assistant",
+      "content": "En C#, une variable est un espace de stockage qui permet de contenir une valeur ou une référence à une valeur. Les variables sont utilisées pour stocker des données temporairement ou définitivement dans un programme. Vous pouvez déclarer une variable en utilisant le mot-clé `var` ou en spécifiant explicitement son type, comme par exemple `int`, `string`, etc.",
+      "sources": []
+    },
+    {
+      "role": "user",
+      "content": "et pour le boucle comment est sa strure ?"
+    },
+    {
+      "role": "assistant",
+      "content": "La structure d'une boucle `foreach` en C# est la suivante :\n\n```csharp\nforeach (type élément in collection)\n{\n    // Code à exécuter pour chaque élément\n}\n```\n\nPar exemple, pour parcourir un tableau de chaînes de caractères `jours`, vous utiliseriez :\n\n```csharp\nstring[] jours = new string[]\n{\n    \"Lundi\",\n    \"Mardi\",\n    \"Mercredi\",\n    \"Jeudi\",\n    \"Vendredi\",\n    \"Samedi\",\n    \"Dimanche\"\n};\n\nforeach (string jour in jours)\n{\n    Console.WriteLine(jour);\n}\n```\n\nDans ce cas, `jour` prendra chaque valeur de la collection `jours` et sera utilisé dans l'expression du bloc.",
+      "sources": [
+        {
+          "source": "apprendre c# (1).pdf",
+          "page": 85,
+          "distance": 0.8510668873786926
+        },
+        {
+          "source": "apprendre c#.pdf",
+          "page": 85,
+          "distance": 0.8510668873786926
+        },
+        {
+          "source": "cs (1).pdf",
+          "page": 85,
+          "distance": 0.8510668873786926
+        },
+        {
+          "source": "apprendre c#.pdf",
+          "page": 89,
+          "distance": 0.8790207505226135
+        },
+        {
+          "source": "cs (1).pdf",
+          "page": 89,
+          "distance": 0.8790207505226135
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Qui est lionnel messi ?"
+    },
+    {
+      "role": "assistant",
+      "content": "Je suis SQUAD-CSHARP, un assistant exclusivement dédié au langage de programmation C#. Je ne peux pas vous aider sur ce sujet, mais n'hésitez pas à me poser une question sur le C#!",
+      "sources": [
+        {
+          "source": "apprendre c# (1).pdf",
+          "page": 225,
+          "distance": 1.1499340534210205
+        },
+        {
+          "source": "apprendre c#.pdf",
+          "page": 225,
+          "distance": 1.1499340534210205
+        },
+        {
+          "source": "cs (1).pdf",
+          "page": 225,
+          "distance": 1.1499340534210205
+        },
+        {
+          "source": "apprendre c# (1).pdf",
+          "page": 2,
+          "distance": 1.1783908605575562
+        },
+        {
+          "source": "cs (1).pdf",
+          "page": 2,
+          "distance": 1.1783908605575562
+        }
+      ]
+    }
+  ]
+}
